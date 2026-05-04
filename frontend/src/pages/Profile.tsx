@@ -36,7 +36,7 @@ const Profile: React.FC = () => {
       }));
 
       // 2. Fetch fresh, detailed data from backend
-      axios.get(`http://10.6.28.106:5001/api/users/${parsedUser.id}`)
+      axios.get(`/api/users/${parsedUser.id}`)
         .then(res => {
           const u = res.data;
           setFormData({
@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
         })
         .catch(err => console.error("Failed to fetch user profile", err));
 
-      axios.get(`http://10.6.28.106:5001/api/categories/${parsedUser.id}`)
+      axios.get(`/api/categories/${parsedUser.id}`)
         .then(res => setCategories(res.data))
         .catch(err => console.error("Failed to fetch categories", err));
     }
@@ -90,7 +90,7 @@ const Profile: React.FC = () => {
     }
 
     try {
-      const res = await axios.put(`http://10.6.28.106:5001/api/users/${userId}`, formData);
+      const res = await axios.put(`/api/users/${userId}`, formData);
       localStorage.setItem('user', JSON.stringify(res.data));
       setMessage('Profile updated successfully!');
     } catch (err: any) {
@@ -115,14 +115,14 @@ const Profile: React.FC = () => {
     e.preventDefault();
     if(!newIncName.trim()) return;
     try {
-      await axios.post('http://10.6.28.106:5001/api/categories', {
+      await axios.post('/api/categories', {
         name: newIncName,
         type: 'custom',
         transaction_type: 'income',
         user_id: userId
       });
       setNewIncName('');
-      const res = await axios.get(`http://10.6.28.106:5001/api/categories/${userId}`);
+      const res = await axios.get(`/api/categories/${userId}`);
       setCategories(res.data);
     } catch (e) { alert('Error creating category'); }
   };
@@ -131,14 +131,14 @@ const Profile: React.FC = () => {
     e.preventDefault();
     if(!newExpName.trim()) return;
     try {
-      await axios.post('http://10.6.28.106:5001/api/categories', {
+      await axios.post('/api/categories', {
         name: newExpName,
         type: 'custom',
         transaction_type: 'expense',
         user_id: userId
       });
       setNewExpName('');
-      const res = await axios.get(`http://10.6.28.106:5001/api/categories/${userId}`);
+      const res = await axios.get(`/api/categories/${userId}`);
       setCategories(res.data);
     } catch (e) { alert('Error creating category'); }
   };
@@ -146,8 +146,8 @@ const Profile: React.FC = () => {
   const handleDeleteCategory = async (catId: number) => {
     if(!window.confirm('Delete this category?')) return;
     try {
-      await axios.delete(`http://10.6.28.106:5001/api/categories/${catId}`);
-      const res = await axios.get(`http://10.6.28.106:5001/api/categories/${userId}`);
+      await axios.delete(`/api/categories/${catId}`);
+      const res = await axios.get(`/api/categories/${userId}`);
       setCategories(res.data);
     } catch (e) { alert('Failed to delete category'); }
   };

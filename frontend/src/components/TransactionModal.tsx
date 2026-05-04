@@ -59,7 +59,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onClose, us
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`http://10.6.28.106:5001/api/categories/${userId}`);
+      const res = await axios.get(`/api/categories/${userId}`);
       setCategories(res.data);
     } catch (e) {
       console.error(e);
@@ -85,7 +85,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onClose, us
     try {
       // Balance guard — only block NEW expense submissions
       if (formData.transaction_type === 'expense' && !transactionToEdit) {
-        const analyticsRes = await axios.get(`http://10.6.28.106:5001/api/analytics/${userId}`);
+        const analyticsRes = await axios.get(`/api/analytics/${userId}`);
         const currentBalance = analyticsRes.data.totals.balance;
         if (parseFloat(formData.amount) > currentBalance) {
           setBalanceError(`Insufficient balance! Available: ₹${currentBalance.toFixed(2)}, You entered: ₹${parseFloat(formData.amount).toFixed(2)}`);
@@ -101,9 +101,9 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onClose, us
       };
 
       if (transactionToEdit) {
-        await axios.put(`http://10.6.28.106:5001/api/transactions/${transactionToEdit.id}`, payload);
+        await axios.put(`/api/transactions/${transactionToEdit.id}`, payload);
       } else {
-        await axios.post('http://10.6.28.106:5001/api/transactions', payload);
+        await axios.post('/api/transactions', payload);
       }
       onSuccess();
       onClose();

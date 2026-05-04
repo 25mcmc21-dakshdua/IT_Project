@@ -65,9 +65,9 @@ const Dashboard: React.FC = () => {
       setLoadingHistory(true);
       const [txRes, catRes] = await Promise.all([
         includeDeleted
-          ? axios.get(`http://10.6.28.106:5001/api/reports/${userId}`)
-          : axios.get(`http://10.6.28.106:5001/api/transactions/${userId}`),
-        axios.get(`http://10.6.28.106:5001/api/categories/${userId}`)
+          ? axios.get(`/api/reports/${userId}`)
+          : axios.get(`/api/transactions/${userId}`),
+        axios.get(`/api/categories/${userId}`)
       ]);
       setTransactions(txRes.data);
       setCategories(catRes.data);
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
 
   const fetchNotifications = async (userId: number) => {
     try {
-      const res = await axios.get(`http://10.6.28.106:5001/api/notifications/${userId}`);
+      const res = await axios.get(`/api/notifications/${userId}`);
       setNotifications(res.data);
     } catch(e) {}
   };
@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
   const handleMarkAsRead = async (e: any, id: number) => {
     e.stopPropagation();
     try {
-      await axios.put(`http://10.6.28.106:5001/api/notifications/${id}/read`);
+      await axios.put(`/api/notifications/${id}/read`);
       fetchNotifications(user.id);
     } catch (e) {}
   };
@@ -102,7 +102,7 @@ const Dashboard: React.FC = () => {
   const handleDelete = async (id: number) => {
     if(window.confirm('Are you sure you want to delete this transaction?')) {
       try {
-        await axios.delete(`http://10.6.28.106:5001/api/transactions/${id}`);
+        await axios.delete(`/api/transactions/${id}`);
         fetchData(user.id, showDeleted);
         setRefreshKey(k => k + 1);
       } catch(e) {

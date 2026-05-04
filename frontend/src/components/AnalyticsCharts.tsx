@@ -16,7 +16,7 @@ const AnalyticsCharts: React.FC<AnalyticsProps> = ({ userId, refreshKey }) => {
 
   const fetchAnalytics = async () => {
     try {
-      const res = await axios.get(`http://10.6.28.106:5001/api/analytics/${userId}`);
+      const res = await axios.get(`/api/analytics/${userId}`);
       setData(res.data);
     } catch (e) {
       console.error(e);

@@ -39,7 +39,7 @@ const Register: React.FC = () => {
     }
 
     try {
-      await axios.post('http://10.6.28.106:5001/api/auth/register', formData);
+      await axios.post('/api/auth/register', formData);
       alert('Registration successful! Please login.');
       navigate('/login');
     } catch (err: any) {

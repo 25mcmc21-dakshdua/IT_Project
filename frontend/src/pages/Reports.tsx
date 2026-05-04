@@ -14,7 +14,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
-const API = 'http://10.6.28.106:5001/api/reports';
+const API = '/api/reports';
 
 const HOSTEL_COLORS: Record<string, string> = { NRS: '#7C3AED', MH: '#2563EB', LH: '#D97706' };
 const BAR_COLOR = '#7C3AED';

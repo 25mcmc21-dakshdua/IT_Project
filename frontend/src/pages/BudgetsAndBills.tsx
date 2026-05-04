@@ -30,9 +30,9 @@ const BudgetsAndBills: React.FC = () => {
   const fetchData = async (userId: number) => {
     try {
       const [bdgRes, billsRes, catRes] = await Promise.all([
-        axios.get(`http://10.6.28.106:5001/api/budgets/${userId}`),
-        axios.get(`http://10.6.28.106:5001/api/recurring-bills/${userId}`),
-        axios.get(`http://10.6.28.106:5001/api/categories/${userId}`)
+        axios.get(`/api/budgets/${userId}`),
+        axios.get(`/api/recurring-bills/${userId}`),
+        axios.get(`/api/categories/${userId}`)
       ]);
       setBudgets(bdgRes.data);
       setBills(billsRes.data);
@@ -46,27 +46,27 @@ const BudgetsAndBills: React.FC = () => {
 
   const deleteBudget = async (id: number) => {
     if(window.confirm('Delete this budget limit?')) {
-      await axios.delete(`http://10.6.28.106:5001/api/budgets/${id}`);
+      await axios.delete(`/api/budgets/${id}`);
       fetchData(user.id);
     }
   };
 
   const deleteBill = async (id: number) => {
     if(window.confirm('Delete this recurring bill?')) {
-      await axios.delete(`http://10.6.28.106:5001/api/recurring-bills/${id}`);
+      await axios.delete(`/api/recurring-bills/${id}`);
       fetchData(user.id);
     }
   };
 
   const toggleBill = async (id: number) => {
-    await axios.put(`http://10.6.28.106:5001/api/recurring-bills/${id}/toggle`);
+    await axios.put(`/api/recurring-bills/${id}/toggle`);
     fetchData(user.id);
   };
 
   const handleAddBudget = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://10.6.28.106:5001/api/budgets', { ...budgetForm, user_id: user.id, category_id: budgetForm.category_id || null });
+      await axios.post('/api/budgets', { ...budgetForm, user_id: user.id, category_id: budgetForm.category_id || null });
       setShowAddBudget(false);
       fetchData(user.id);
     } catch (e) { alert('Error adding budget'); }
@@ -75,7 +75,7 @@ const BudgetsAndBills: React.FC = () => {
   const handleAddBill = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://10.6.28.106:5001/api/recurring-bills', { ...billForm, user_id: user.id });
+      await axios.post('/api/recurring-bills', { ...billForm, user_id: user.id });
       setShowAddBill(false);
       fetchData(user.id);
     } catch (e) { alert('Error adding bill. Pick a category!'); }
